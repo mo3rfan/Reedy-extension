@@ -7,6 +7,12 @@
 	"version": "2.1.1",
 	
 	"default_locale": "en",
+
+  "applications": {
+    "gecko": {
+      "id": "{64b3abd6-197b-4fc5-b2a6-aee4e6f2d8d7}"
+    }
+  },
 	
 	"content_scripts": [
 		{
