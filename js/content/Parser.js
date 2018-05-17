@@ -474,7 +474,7 @@
 				return isDigits(tokenStr) || tokenStr === '(' || tokenStr === ')' ? RES_NEED_MORE : RES_FALSE;
 			},
 			
-			// https://chrome.google.com/webstore/detail/reedy/ihbdojmggkmjbhfflnchljfkgdhokffj
+			// https://browser.google.com/webstore/detail/reedy/ihbdojmggkmjbhfflnchljfkgdhokffj
 			// olegcherr@yandex.ru
 			function(i, token, tokenStr, stack, stackStr) {
 				if (stackStr.length < 5) return RES_NEED_MORE;

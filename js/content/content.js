@@ -180,7 +180,7 @@
 	
 	
 	
-	chrome.runtime.onMessage.addListener(onMessage);
+	browser.runtime.onMessage.addListener(onMessage);
 	
 	app.sendMessageToExtension({type: 'getSettings', key: 'runShortcut'}, function(res) {
 		runShortcut = res;

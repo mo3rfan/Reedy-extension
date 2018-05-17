@@ -1,6 +1,6 @@
 
 
-chrome.runtime.getBackgroundPage(function(bgWindow) {
+browser.runtime.getBackgroundPage(function(bgWindow) {
 	
 	function querySelector(selector) {
 		return document.querySelector(selector);
@@ -162,7 +162,7 @@ chrome.runtime.getBackgroundPage(function(bgWindow) {
 		updateShortcutElems(runShortcut);
 		
 		
-		chrome.fontSettings.getFontList(function(fontList) {
+		browser.fontSettings.getFontList(function(fontList) {
 			initThemeControls(settings, fontList);
 		});
 	}
@@ -267,7 +267,7 @@ chrome.runtime.getBackgroundPage(function(bgWindow) {
 		);
 	
 	
-	chrome.runtime.connect({name: "Popup"});
+	browser.runtime.connect({name: "Popup"});
 	
 	app.localizeElements(document);
 	

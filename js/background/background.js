@@ -22,11 +22,11 @@
 		if (UUID)
 			callback(UUID);
 		else
-			chrome.storage.sync.get({UUID: 0}, function(items) {
+			browser.storage.sync.get({UUID: 0}, function(items) {
 				UUID = items.UUID;
 				if (!UUID) {
 					UUID = generateUUID();
-					chrome.storage.sync.set({UUID: UUID});
+					browser.storage.sync.set({UUID: UUID});
 				}
 				callback(UUID);
 			});
@@ -36,13 +36,13 @@
 	function install(tabId) {
 		var contentScripts = manifest.content_scripts['0'].js, i;
 		for (i = 0; i < contentScripts.length; i++) {
-			chrome.tabs.executeScript(tabId == null ? null : tabId, {file: contentScripts[i]});
+			browser.tabs.executeScript(tabId == null ? null : tabId, {file: contentScripts[i]});
 		}
 	}
 	
 	function isTabAlive(callback) {
 		getCurrentTab(function(tab) {
-			chrome.tabs.sendMessage(tab.id, {type: 'isAlive'}, function(res) {
+			browser.tabs.sendMessage(tab.id, {type: 'isAlive'}, function(res) {
 				// If tab will not respond `res` will be `undefined`
 				callback(!!res, tab.id);
 			});
@@ -77,7 +77,7 @@
 	
 	
 	function getCurrentTab(callback) {
-		chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
+		browser.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
 			tabs[0] && callback(tabs[0]);
 		});
 	}
@@ -143,7 +143,7 @@
 		if (details.reason === "install") {
 			// Let the UUID to be generated
 			setTimeout(function() {
-				chrome.tabs.query({}, function(tabs) {
+				browser.tabs.query({}, function(tabs) {
 					for (var i = 0; i < tabs.length; i++) {
 						install(tabs[i].id);
 					}
@@ -160,9 +160,9 @@
 		app.trackJSError(e, 'JS Background');
 	});
 	
-	var manifest = chrome.runtime.getManifest(),
+	var manifest = browser.runtime.getManifest(),
 		version = manifest.version,
-		extensionId = chrome.i18n.getMessage("@@extension_id"),
+		extensionId = browser.i18n.getMessage("@@extension_id"),
 		
 		isDevMode = !('update_url' in manifest),
 		isPopupOpen = false,
@@ -218,7 +218,7 @@
 	
 	
 	
-	app.offlineUrl = chrome.runtime.getURL("offline.html");
+	app.offlineUrl = browser.runtime.getURL("offline.html");
 	
 	
 	app.event = function(category, action, label) {
@@ -245,7 +245,7 @@
 	
 	
 	app.getSettings = function(key, callback) {
-		chrome.storage.sync.get(defaults, function(items) {
+		browser.storage.sync.get(defaults, function(items) {
 			callback(key != null ? app.getByPath(items, key) : items);
 		});
 	}
@@ -254,7 +254,7 @@
 		app.getSettings(null, function(settings) {
 			app.setByPath(settings, key, value);
 			
-			chrome.storage.sync.set(settings, function() {
+			browser.storage.sync.set(settings, function() {
 				callback && callback();
 				app.sendMessageToSelectedTab({type: "settingsUpdate", key: key, value: value});
 			});
@@ -265,7 +265,7 @@
 		app.getSettings(null, function(settings) {
 			app.setByPath(settings, "theme."+themeName+"."+key, value);
 			
-			chrome.storage.sync.set(settings, function() {
+			browser.storage.sync.set(settings, function() {
 				callback && callback();
 				app.sendMessageToSelectedTab({type: "settingsUpdate", key: "theme."+themeName+"."+key, value: value});
 			});
@@ -277,7 +277,7 @@
 			var value = defaults.theme[themeName];
 			app.setByPath(settings, "theme."+themeName, value);
 			
-			chrome.storage.sync.set(settings, function() {
+			browser.storage.sync.set(settings, function() {
 				callback && callback();
 				app.sendMessageToSelectedTab({type: "settingsUpdate", key: "theme."+themeName, value: value});
 			});
@@ -287,7 +287,7 @@
 	
 	app.sendMessageToSelectedTab = function(data, callback) {
 		installAndRun(function(tabId) {
-			chrome.tabs.sendMessage(tabId, data, callback || noop);
+			browser.tabs.sendMessage(tabId, data, callback || noop);
 		});
 	}
 	
@@ -320,21 +320,21 @@
 	});
 	
 	
-	chrome.runtime.onMessage.addListener(onMessage);
+	browser.runtime.onMessage.addListener(onMessage);
 	
-	chrome.runtime.onConnect.addListener(onConnect);
+	browser.runtime.onConnect.addListener(onConnect);
 	
 	
-	chrome.contextMenus.create({
+	browser.contextMenus.create({
 		id: "reedyMenu",
-		title: chrome.i18n.getMessage("contextMenu"),
+		title: browser.i18n.getMessage("contextMenu"),
 		contexts: ["selection"]
 	});
 	
-	chrome.contextMenus.onClicked.addListener(onClicked);
+	browser.contextMenus.onClicked.addListener(onClicked);
 	
 	
-	chrome.runtime.onInstalled.addListener(onInstalled);
+	browser.runtime.onInstalled.addListener(onInstalled);
 	
 	
 	

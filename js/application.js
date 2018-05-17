@@ -33,7 +33,7 @@
 		};
 	
 	
-	app.offlinePageUrl = chrome.runtime.getURL("offline.html");
+	app.offlinePageUrl = browser.runtime.getURL("offline.html");
 	
 	
 	app.proxy = function(context, fnName) {
@@ -186,7 +186,7 @@
 	
 	
 	app.sendMessageToExtension = function(data, callback) {
-		chrome.runtime.sendMessage(data, callback || function() {});
+		browser.runtime.sendMessage(data, callback || function() {});
 	}
 	
 	app.event = function(category, action, label) {
@@ -194,7 +194,7 @@
 	}
 	
 	app.t = function() {
-		return chrome.i18n.getMessage.apply(chrome.i18n, arguments);
+		return browser.i18n.getMessage.apply(browser.i18n, arguments);
 	}
 	
 	app.localizeElements = function(document) {
