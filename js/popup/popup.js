@@ -162,9 +162,9 @@ browser.runtime.getBackgroundPage(function(bgWindow) {
 		updateShortcutElems(runShortcut);
 		
 		
-		browser.fontSettings.getFontList(function(fontList) {
-			initThemeControls(settings, fontList);
-		});
+		//browser.fontSettings.getFontList(function(fontList) {
+			//initThemeControls(settings, fontList);
+		//});
 	}
 	
 	function initThemeControls(settings, fontList) {
